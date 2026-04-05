@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 {
@@ -14,6 +16,8 @@ namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 
         public SayaTubeUser(string username)
         {
+            Debug.Assert(username != null && username.Length <= 100, "Error: Username tidak boleh null dan maksimal 100 karakter.");
+
             Random rnd = new Random();
             this.id = rnd.Next(10000, 99999);
             this.Username = username;
@@ -32,13 +36,17 @@ namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 
         public void AddVideo(SayaTubeVideo video)
         {
+            Debug.Assert(video != null, "Error: Video tidak boleh null.");
+            Debug.Assert(video.GetPlayCount() < int.MaxValue, "Error: Play count video sudah mencapai batas maksimal.");
+
             uploadedVideos.Add(video);
         }
 
         public void PrintAllVideoPlaycount()
         {
             Console.WriteLine($"User: {Username}");
-            for (int i = 0; i < uploadedVideos.Count; i++)
+
+            for (int i = 0; i < uploadedVideos.Count && i < 8; i++)
             {
                 Console.WriteLine($"Video {i + 1} judul: {uploadedVideos[i].GetTitle()}");
             }

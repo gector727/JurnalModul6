@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 {
@@ -14,6 +15,8 @@ namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 
         public SayaTubeVideo(string title)
         {
+            Debug.Assert(title != null && title.Length <= 200, "Error: Judul tidak boleh null dan maksimal 200 karakter.");
+
             Random rnd = new Random();
             this.id = rnd.Next(10000, 99999);
             this.title = title;
@@ -22,7 +25,20 @@ namespace JurnalModul6_103082400004_Muh_Aqsa_Sirojudin
 
         public void IncreasePlayCount(int count)
         {
-            playCount += count;
+            Debug.Assert(count >= 0 && count <= 25000000, "Error: Input play count harus positif dan maksimal 25.000.000.");
+
+            try
+            {
+                checked
+                {
+                    playCount += count;
+                }
+            }
+            catch (OverflowException e)
+            {
+                Console.WriteLine("\n[Exception Caught] Penambahan play count melebihi batas tertinggi integer!");
+                Console.WriteLine("Pesan Error: " + e.Message);
+            }
         }
 
         public void PrintVideoDetails()
